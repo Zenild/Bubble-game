@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Styles pour le body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles pour le titre */
+h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 10px;
+  /* Multi-color effect */
+  background: linear-gradient(to right, #ff69b4, #33cc33, #66CCCC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* style.css */
+
+/* Police cool pour le paragraphe et le footer */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+
+/* Styles pour le paragraphe */
+p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styles pour le canvas */
+#game-canvas {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+/* Styles pour le footer */
+footer {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Styles pour le titre */
+h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 10px;
+  /* Multi-color effect */
+  background: linear-gradient(to right, #ff69b4, #33cc33, #66CCCC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Styles pour le titre */
+h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 10px;
+  /* Multi-color effect */
+  background: linear-gradient(to right, #ff0000, #ccff00, #0066cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* CSS in style1.css */
+.threeD-button-set {
+  --y: 0;
+  --x: 0;
+  --distance: 1px;
+  --theme: hsl(180 100% 50%);
+  --theme-bg: hsl(180 100% 50% / 25%);
+  --theme-bg-hover: hsl(180 100% 50% / 40%);
+  --theme-text: white;
+  --theme-shadow: hsl(180 100% 10% / 25%);
+  --_max-rotateY: 10deg;
+  --_max-rotateX: 15deg;
+  --_btn-bg: var(--theme-bg);
+  --_btn-bg-hover: var(--theme-bg-hover);
+  --_btn-text: var(--theme-text);
+  --_btn-text-shadow: var(--theme-shadow);
+  --_bounce-ease: cubic-bezier(.5, 1.75,.75, 1.25);
+}
+
+.threeD-button-set button {
+  appearance: none;
+  outline: none;
+  border: none;
+  background-color: var(--_btn-bg);
+  color: var(--_btn-text);
+  text-shadow: 0 1px 1px var(--_btn-text-shadow);
+  font-size: 5vmin;
+  font-family: Audiowide;
+  padding-block:.75ch;
+  padding-inline: 2ch;
+  border-radius: 5px 20px;
+  transform: translateZ(var(--distance));
+  transform-style: preserve-3d;
+}
+
+.threeD-button-set button::after, 
+.threeD-button-set button::before {
+  content: '';
+  opacity:.8;
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--theme);
+  border-radius: 5px 20px;
+}
+
+.threeD-button-set button::before {
+  border-width: 3px;
+}
+
+.threeD-button-set button:hover, 
+.threeD-button-set button:focus {
+  --distance: 10px;
+  transform: translateZ(var(--distance));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.threeD-button-set button:active {
+  --distance: 5px;
+  transform: translateZ(var(--distance));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.copyright {
+  background-color: #333;
+  color: #fff;
+  padding: 1em; 
+  text-align: center; 
+  font-size: 0.8em; 
+  clear: both; 
+}
+
+.copyright a {
+  color: #fff; 
+  text-decoration: underline;  
+}
+
+.copyright a:hover {
+  color: #ccc;
+}
