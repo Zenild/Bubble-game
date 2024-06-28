@@ -46,6 +46,7 @@ h2 {
 .threeD-button-set button {
   appearance: none;
   outline: none;
+  text-align: center;
   border: none;
   background-color: var(--_btn-bg);
   color: var(--_btn-text);
