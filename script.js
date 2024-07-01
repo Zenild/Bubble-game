@@ -101,8 +101,8 @@ function handleTouchMove(event) {
   let deltaY = touchMoveY - touchStartY;
 
   // Appliquer la vitesse au joueur en fonction de la direction
-  player.speedX = deltaX * 0.4; // Ajuster la sensibilité du mouvement
-  player.speedY = deltaY * 0.4;
+  player.speedX = deltaX * 0.6; // Ajuster la sensibilité du mouvement
+  player.speedY = deltaY * 0.6;
 
   // Mettre à jour les coordonnées de départ pour le prochain mouvement
   touchStartX = touchMoveX;
