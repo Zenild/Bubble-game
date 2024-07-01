@@ -5,6 +5,8 @@ let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 10 };
 let enemies = [];
 let score = 0;
 let timer = 60; // 1 minute
+let touchStartX = 0;
+let touchStartY = 0;
 
 // Fonction pour calculer la distance entre deux points
 function distance(x1, y1, x2, y2) {
@@ -35,12 +37,10 @@ function update() {
   player.x += player.speedX;
   player.y += player.speedY;
 
+  // Rebond sur les bords du canvas
   if (player.x + player.radius > canvas.width || player.x - player.radius < 0) {
     player.speedX = -player.speedX;
   }
-  
-  // ...
-
   if (player.y + player.radius > canvas.height || player.y - player.radius < 0) {
     player.speedY = -player.speedY;
   }
@@ -61,16 +61,16 @@ function update() {
     }
   }
 
-  // Ajout d'ennemis infinis
-  if (Math.random() < 0.1) {
+  // Ajout d'ennemis
+  if (Math.random() < 0.05) { // Probabilité d'apparition d'un ennemi à chaque image
     enemies.push({ x: 0, y: Math.random() * canvas.height });
   }
 
   // Mise à jour du timer
   timer -= 1 / 60;
   if (timer <= 0) {
-    alert(`Bravo avec : ${score} déjà je sais que vous pouvez faire mieux !`);
-    init(); // Recommence le jeu avec le score à 0
+    alert(`Temps écoulé ! Votre score final est de : ${score}`);
+    init(); // Recommence le jeu
   }
 }
 
@@ -88,32 +88,56 @@ function draw() {
 }
 
 // Fonction pour gérer les événements de toucher
-canvas.addEventListener('touchstart', (event) => {
-  player.speedX = event.touches[0].clientX - player.x;
-  player.speedY = event.touches[0].clientY - player.y;
-});
+function handleTouchStart(event) {
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+}
 
-canvas.addEventListener('touchmove', (event) => {
-  player.x = event.touches[0].clientX;
-  player.y = event.touches[0].clientY;
-});
+function handleTouchMove(event) {
+  // Calculer la direction du mouvement
+  let touchMoveX = event.touches[0].clientX;
+  let touchMoveY = event.touches[0].clientY;
+  let deltaX = touchMoveX - touchStartX;
+  let deltaY = touchMoveY - touchStartY;
 
-canvas.addEventListener('touchend', () => {
+  // Appliquer la vitesse au joueur en fonction de la direction
+  player.speedX = deltaX * 0.4; // Ajuster la sensibilité du mouvement
+  player.speedY = deltaY * 0.4;
+
+  // Mettre à jour les coordonnées de départ pour le prochain mouvement
+  touchStartX = touchMoveX;
+  touchStartY = touchMoveY;
+}
+
+function handleTouchEnd() {
+  // Arrêter le joueur lorsque le doigt est retiré de l'écran
   player.speedX = 0;
   player.speedY = 0;
-});
+}
+
+// Ajout des écouteurs d'événements tactiles
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
+canvas.addEventListener('touchend', handleTouchEnd);
 
 // Fonction pour initialiser le jeu
 function init() {
   score = 0;
   timer = 60;
   enemies = [];
-  player.x = 100;
-  player.y = 100;
+  player.x = canvas.width / 2; // Démarrer au centre
+  player.y = canvas.height / 2;
   player.speedX = 0;
   player.speedY = 0;
-  setInterval(update, 16);
-  setInterval(draw, 16);
 }
 
-init(); // Initialise le jeu pour la première fois
+// Boucle de jeu
+function gameLoop() {
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+// Initialiser le jeu et démarrer la boucle de jeu
+init();
+gameLoop();
