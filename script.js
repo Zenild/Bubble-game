@@ -100,8 +100,8 @@ function init() {
 init(); // Initialise le jeu pour la première fois
 
 canvas.addEventListener('touchstart', (event) => {
-  player.speedX = (event.touches[0].clientX - player.x) * 0.8; // Réduit le déplacement du player
-  player.speedY = (event.touches[0].clientY - player.y) * 0.8; // Réduit le déplacement du player
+  player.speedX = (event.touches[0].clientX - player.x) * 1.0; // Réduit le déplacement du player
+  player.speedY = (event.touches[0].clientY - player.y) * 1.0; // Réduit le déplacement du player
 });
 
 canvas.addEventListener('touchmove', (event) => {
