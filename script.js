@@ -6,19 +6,29 @@ let enemies = [];
 let score = 0;
 let timer = 60;
 
+// Charger les images
+let playerImage = new Image();
+playerImage.src = 'player.png'; 
+
+let enemyImage = new Image();
+enemyImage.src = 'enemy.png'; 
+
+let backgroundImage = new Image();
+backgroundImage.src = 'background.png';
+
 // Créer le joystick après le chargement du contenu de la page
 document.addEventListener('DOMContentLoaded', function() {
   let joystick = nipplejs.create({
     zone: document.getElementById('joystick-container'),
-    mode: 'static', // Ou 'dynamic' 
+    mode: 'static', 
     position: { left: '50%', bottom: '20%' }, 
     color: 'red' 
   });
 
-  // Écouter les événements du joystick
   joystick.on('move', function(evt, data) {
-    player.speedX = Math.cos(data.angle.radian) * data.distance * 0.05;
-    player.speedY = Math.sin(data.angle.radian) * data.distance * 0.05; 
+    let speedMultiplier = 0.1;
+    player.speedX = Math.cos(data.angle.radian) * data.distance * speedMultiplier;
+    player.speedY = Math.sin(data.angle.radian) * data.distance * speedMultiplier; 
   });
 
   joystick.on('end', function(evt) {
@@ -34,70 +44,40 @@ function distance(x1, y1, x2, y2) {
 
 // Fonction pour dessiner le joueur
 function drawPlayer() {
-  ctx.beginPath();
-  ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
-  ctx.fillStyle = 'red';
-  ctx.fill();
+  if (playerImage.complete) {
+    ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 2, player.radius * 2);
+  } else {
+    ctx.beginPath();
+    ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+  }
 }
 
 // Fonction pour dessiner les ennemis
 function drawEnemies() {
   for (let i = 0; i < enemies.length; i++) {
-    ctx.beginPath();
-    ctx.rect(enemies[i].x, enemies[i].y, 20, 20);
-    ctx.fillStyle = 'black';
-    ctx.fill();
-  }
-}
-
-// Fonction pour mettre à jour le jeu
-function update() {
-  // Mise à jour du joueur
-  player.x += player.speedX;
-  player.y += player.speedY;
-
-  // Rebond sur les bords du canvas
-  if (player.x + player.radius > canvas.width || player.x - player.radius < 0) {
-    player.speedX = -player.speedX;
-  }
-  if (player.y + player.radius > canvas.height || player.y - player.radius < 0) {
-    player.speedY = -player.speedY;
-  }
-
-  // Mise à jour des ennemis
-  for (let i = 0; i < enemies.length; i++) {
-    enemies[i].x += 2;
-    if (enemies[i].x > canvas.width) {
-      enemies.splice(i, 1);
+    if (enemyImage.complete) {
+      ctx.drawImage(enemyImage, enemies[i].x, enemies[i].y, 20, 20);
+    } else {
+      ctx.beginPath();
+      ctx.rect(enemies[i].x, enemies[i].y, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.fill();
     }
-  }
-
-  // Vérification des collisions
-  for (let i = 0; i < enemies.length; i++) {
-    if (distance(player.x, player.y, enemies[i].x, enemies[i].y) < player.radius + 10) {
-      score++;
-      enemies.splice(i, 1);
-    }
-  }
-
-  // Ajout d'ennemis
-  if (Math.random() < 0.05) {
-    enemies.push({ x: 0, y: Math.random() * canvas.height });
-  }
-
-  // Mise à jour du timer
-  timer -= 1 / 60;
-  if (timer <= 0) {
-    alert(`Temps écoulé ! Votre score final est de : ${score}`);
-    init(); 
   }
 }
 
 // Fonction pour dessiner le jeu
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Dessiner le fond
+  if (backgroundImage.complete) {
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+  }
+
   drawPlayer();
   drawEnemies();
+
   ctx.font = '24px Arial';
   ctx.fillStyle = 'black';
   ctx.textAlign = 'left';
@@ -106,13 +86,50 @@ function draw() {
   ctx.fillText(`Temps restant: ${Math.floor(timer)}`, 10, 30);
 }
 
+// Fonction pour mettre à jour le jeu
+function update() {
+  player.x += player.speedX;
+  player.y += player.speedY;
+
+  if (player.x + player.radius > canvas.width || player.x - player.radius < 0) {
+    player.speedX = -player.speedX;
+  }
+  if (player.y + player.radius > canvas.height || player.y - player.radius < 0) {
+    player.speedY = -player.speedY;
+  }
+
+  for (let i = 0; i < enemies.length; i++) {
+    enemies[i].x += 2; 
+    if (enemies[i].x > canvas.width) {
+      enemies.splice(i, 1);
+    }
+  }
+
+  for (let i = 0; i < enemies.length; i++) {
+    if (distance(player.x, player.y, enemies[i].x, enemies[i].y) < player.radius + 10) {
+      score++;
+      enemies.splice(i, 1);
+    }
+  }
+
+  if (Math.random() < 0.05) {
+    enemies.push({ x: 0, y: Math.random() * canvas.height });
+  }
+
+  timer -= 1 / 60;
+  if (timer <= 0) {
+    alert(`Temps écoulé ! Votre score final est de : ${score}`);
+    init();
+  }
+}
+
 // Fonction pour initialiser le jeu
 function init() {
   score = 0;
   timer = 60;
   enemies = [];
-  player.x = canvas.width / 2; 
-  player.y = canvas.height / 2; 
+  player.x = canvas.width / 2;
+  player.y = canvas.height / 2;
   player.speedX = 0;
   player.speedY = 0;
 }
@@ -124,6 +141,5 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-// Initialiser le jeu et démarrer la boucle de jeu
 init();
 gameLoop();
