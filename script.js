@@ -91,11 +91,16 @@ function update() {
   player.x += player.speedX;
   player.y += player.speedY;
 
-  if (player.x + player.radius > canvas.width || player.x - player.radius < 0) {
-    player.speedX = -player.speedX;
+  // Garder le joueur dans la zone de jeu
+  if (player.x + player.radius > canvas.width) {
+    player.x = canvas.width - player.radius;
+  } else if (player.x - player.radius < 0) {
+    player.x = player.radius;
   }
-  if (player.y + player.radius > canvas.height || player.y - player.radius < 0) {
-    player.speedY = -player.speedY;
+  if (player.y + player.radius > canvas.height) {
+    player.y = canvas.height - player.radius;
+  } else if (player.y - player.radius < 0) {
+    player.y = player.radius;
   }
 
   for (let i = 0; i < enemies.length; i++) {
