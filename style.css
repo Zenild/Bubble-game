@@ -52,3 +52,13 @@ footer {
   text-align: center;
   margin-top: 20px;
 }
+
+/* Styles pour le conteneur du joystick */
+#joystick-container {
+  position: absolute; 
+  bottom: 20px; 
+  left: 50%;
+  transform: translateX(-50%); /* Centrer horizontalement */
+  width: 80px; 
+  height: 80px;
+}
