@@ -1,20 +1,104 @@
+ 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booble game</title>
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  
+  <style>
+      
+      /* Style du bouton Feedback */
+#feedback-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #4CAF50; /* Couleur de fond verte */
+  color: white; /* Texte blanc */
+  border: none; 
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en forme de pointeur */
+  transition: background-color 0.3s ease; /* Transition douce pour la couleur de fond */
+}
 
+/* Effet au survol du bouton */
+#feedback-button:hover {
+  background-color: #45a049; /* Couleur de fond verte plus foncée au survol */
+}
+      
+  </style>
+  
 </head>
 <body>
+
+  <button id="feedback-button" style="
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000; /* Assurez-vous que le bouton soit au-dessus du canvas */
+  ">Feedback</button>
+
   <h1>Booble game</h1>
   <p>Essayer de faire de votre mieux pour un meilleur score historique.</p>
   <div id="joystick-container"></div> 
   <canvas id="game-canvas" width="400" height="300"></canvas>
 
   <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.1/dist/nipplejs.min.js"></script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+  <script>
+    // ... Votre code JavaScript actuel ...
+
+    // Fonction pour envoyer le message au bot Telegram
+    function sendMessageToBot(message) {
+      const botToken = '7471984362:AAGtsVXGCqm4zVXaKvHnSKpsUUp8XNqxJkA'; 
+      const chatId = '-1002244868120';
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erreur lors de l\'envoi du message.');
+          }
+          console.log('Message envoyé avec succès !');
+        })
+        .catch(error => {
+          console.error('Erreur lors de l\'envoi du message :', error);
+          // Gérer les erreurs, par exemple, afficher un message d'erreur à l'utilisateur
+        });
+    }
+
+    // Gestionnaire d'événement pour le bouton de feedback
+    document.getElementById('feedback-button').addEventListener('click', () => {
+      Swal.fire({
+        title: 'Vos remarques',
+        input: 'textarea',
+        inputAttributes: {
+          'aria-label': 'Entrez vos remarques ici'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Envoyer',
+        cancelButtonText: 'Annuler',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const message = result.value;
+          sendMessageToBot(message);
+          Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
+        }
+      });
+    });
+  </script>
 </body>
 <footer>Amusé vous bien !</footer>
 </html>
+  
+  
+  
+  
+
+</body>
