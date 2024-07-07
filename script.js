@@ -1,4 +1,4 @@
-// Variables du jeu.
+  // Variables du jeu
 let canvas = document.getElementById('game-canvas');
 let ctx = canvas.getContext('2d');
 let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 10 };
@@ -6,29 +6,32 @@ let enemies = [];
 let score = 0;
 let timer = 60;
 
-// Charger les images
+// Chargement des images
 let playerImage = new Image();
-playerImage.src = 'player.png'; 
+playerImage.src = 'player.png';
 
 let enemyImage = new Image();
-enemyImage.src = 'enemy.png'; 
+enemyImage.src = 'enemy.png';
 
 let backgroundImage = new Image();
 backgroundImage.src = 'background.png';
+
+// Variable pour suivre le chargement des ressources
+let resourcesLoaded = false;
 
 // Créer le joystick après le chargement du contenu de la page
 document.addEventListener('DOMContentLoaded', function() {
   let joystick = nipplejs.create({
     zone: document.getElementById('joystick-container'),
-    mode: 'static', 
-    position: { left: '50%', bottom: '20%' }, 
-    color: 'red' 
+    mode: 'static',
+    position: { left: '50%', bottom: '20%' },
+    color: 'red'
   });
 
   joystick.on('move', function(evt, data) {
     let speedMultiplier = 0.1;
     player.speedX = Math.cos(data.angle.radian) * data.distance * speedMultiplier;
-    player.speedY = Math.sin(data.angle.radian) * data.distance * speedMultiplier; 
+    player.speedY = - Math.sin(data.angle.radian) * data.distance * speedMultiplier;
   });
 
   joystick.on('end', function(evt) {
@@ -104,7 +107,7 @@ function update() {
   }
 
   for (let i = 0; i < enemies.length; i++) {
-    enemies[i].x += 2; 
+    enemies[i].x += 2;
     if (enemies[i].x > canvas.width) {
       enemies.splice(i, 1);
     }
@@ -139,12 +142,25 @@ function init() {
   player.speedY = 0;
 }
 
-// Boucle de jeu
-function gameLoop() {
-  update();
-  draw();
-  requestAnimationFrame(gameLoop);
+// Fonction pour vérifier si toutes les ressources sont chargées
+function checkResourcesLoaded() {
+  if (playerImage.complete && enemyImage.complete && backgroundImage.complete) {
+    resourcesLoaded = true;
+    init(); 
+    gameLoop();
+  }
 }
 
-init();
-gameLoop();
+// Appels pour charger les images et vérifier le chargement
+playerImage.onload = checkResourcesLoaded;
+enemyImage.onload = checkResourcesLoaded;
+backgroundImage.onload = checkResourcesLoaded;
+
+// Boucle de jeu
+function gameLoop() {
+  if (resourcesLoaded) { 
+    update();
+    draw();
+  }
+  requestAnimationFrame(gameLoop);
+}
