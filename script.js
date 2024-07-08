@@ -1,7 +1,7 @@
   // Variables du jeu
 let canvas = document.getElementById('game-canvas');
 let ctx = canvas.getContext('2d');
-let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 10 };
+let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 8 };
 let enemies = [];
 let score = 0;
 let timer = 60;
@@ -51,7 +51,7 @@ function drawPlayer() {
     ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 2, player.radius * 2);
   } else {
     ctx.beginPath();
-    ctx.arc(player.x, player.y, player.radius, 0, 9 * Math.PI);
+    ctx.arc(player.x, player.y, player.radius, 20 * Math.PI);
     ctx.fillStyle = 'red';
     ctx.fill();
   }
