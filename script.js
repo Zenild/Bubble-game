@@ -51,7 +51,7 @@ function drawPlayer() {
     ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 2, player.radius * 2);
   } else {
     ctx.beginPath();
-    ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
+    ctx.arc(player.x, player.y, player.radius, 0, 9 * Math.PI);
     ctx.fillStyle = 'red';
     ctx.fill();
   }
