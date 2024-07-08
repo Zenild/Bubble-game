@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   joystick.on('move', function(evt, data) {
-    let speedMultiplier = 0.8;
+    let speedMultiplier = 0.3;
     player.speedX = Math.cos(data.angle.radian) * data.distance * speedMultiplier;
     player.speedY = - Math.sin(data.angle.radian) * data.distance * speedMultiplier;
   });
