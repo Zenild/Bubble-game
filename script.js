@@ -1,7 +1,7 @@
   // Variables du jeu
 let canvas = document.getElementById('game-canvas');
 let ctx = canvas.getContext('2d');
-let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 8 };
+let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 20 };
 let enemies = [];
 let score = 0;
 let timer = 60;
