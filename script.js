@@ -48,7 +48,7 @@ function distance(x1, y1, x2, y2) {
 // Fonction pour dessiner le joueur
 function drawPlayer() {
   if (playerImage.complete) {
-    ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 5, player.radius * 5);
+    ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 3, player.radius * 3);
   } else {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 20 * Math.PI);
