@@ -1,4 +1,5 @@
- 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,73 +8,54 @@
   <title>Bubble game</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <img id="background-image" src="fond.png" alt="Background image"></img>
-
   <style>
-      
-      /* Style du bouton Feedback */
-#feedback-button {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #4CAF50; /* Couleur de fond verte */
-  color: white; /* Texte blanc */
-  border: none; 
-  border-radius: 5px; /* Coins arrondis */
-  cursor: pointer; /* Curseur en forme de pointeur */
-  transition: background-color 0.3s ease; /* Transition douce pour la couleur de fond */
-}
-
-/* Effet au survol du bouton */
-#feedback-button:hover {
-  background-color: #45a049; /* Couleur de fond verte plus foncée au survol */
-}
-      
+    body {
+      background-image: url('fond.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #feedback-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none; 
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #feedback-button:hover {
+      background-color: #45a049;
+    }
   </style>
-  
 </head>
 <body>
-
-  <button id="feedback-button" style="
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000; /* Assurez-vous que le bouton soit au-dessus du canvas */
-  ">Feedback</button>
-
+  <button id="feedback-button"></button>
   <h1>Bubble game</h1>
   <p>Essayer de faire de votre mieux pour un meilleur score historique.</p>
-  <div id="joystick-container"></div> 
+  <div id="joystick-container"></div>
   <canvas id="game-canvas" width="400" height="300"></canvas>
-
   <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.1/dist/nipplejs.min.js"></script>
-    <script src="script.js"></script>
+  <script src="script.js"></script>
   <script>
-    // ... Votre code JavaScript actuel ...
-
-    // Fonction pour envoyer le message au bot Telegram
     function sendMessageToBot(message) {
       const botToken = '7471984362:AAGtsVXGCqm4zVXaKvHnSKpsUUp8XNqxJkA'; 
       const chatId = '-1002244868120';
       const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
-
       fetch(url)
         .then(response => {
           if (!response.ok) {
             throw new Error('Erreur lors de l\'envoi du message.');
           }
-          console.log('Message envoyé avec succès !');
         })
         .catch(error => {
           console.error('Erreur lors de l\'envoi du message :', error);
-          // Gérer les erreurs, par exemple, afficher un message d'erreur à l'utilisateur
         });
     }
-
-    // Gestionnaire d'événement pour le bouton de feedback
     document.getElementById('feedback-button').addEventListener('click', () => {
       Swal.fire({
         title: 'Vos remarques',
@@ -95,13 +77,6 @@
   </script>
 </body>
 <footer>
- <div>Amusé vous bien !
- </div>
+  <div>Amusé vous bien !</div>
 </footer>
 </html>
-  
-  
-  
-  
-
-</body>
