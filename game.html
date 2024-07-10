@@ -1,6 +1,4 @@
-
-
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -9,10 +7,16 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
     body {
       background-image: url('fond.png');
       background-repeat: no-repeat;
       background-size: cover;
+      background-attachment: fixed;
+      overflow: visible; /* Ajout de cette ligne */
     }
     #feedback-button {
       position: fixed;
@@ -43,7 +47,7 @@
   <script src="script.js"></script>
   <script>
     function sendMessageToBot(message) {
-      const botToken = '7471984362:AAGtsVXGCqm4zVXaKvHnSKpsUUp8XNqxJkA'; 
+      const botToken ='7471984362:AAGtsVXGCqm4zVXaKvHnSKpsUUp8XNqxJkA'; 
       const chatId = '-1002244868120';
       const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
       fetch(url)
