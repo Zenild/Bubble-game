@@ -10,6 +10,10 @@ h1 {
   background: linear-gradient(to right, #ff69b4, #33cc33, #66CCCC);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* Ajout de bordures */
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 /* Styles pour le titre */
@@ -22,6 +26,10 @@ h2 {
   background: linear-gradient(to right, #ff0000, #ccff00, #0066cc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* Ajout de bordures */
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 /* Le écrit à propos du jeu */
