@@ -28,7 +28,7 @@ h2 {
 p {
   font-family: 'press Start 2p', cursive;
   font-size: 10px;
-  texte-align: center;
+  texte-align: linear right;
   margrin-bottom: 5px
 
 /* CSS in style1.css */
