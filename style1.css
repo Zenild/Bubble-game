@@ -26,10 +26,12 @@ h2 {
 
 /* Le écrit à propos du jeu */
 p {
-  font-family: 'press Start 2p', cursive;
-  font-size: 10px;
-  texte-align: linear right;
-  margrin-bottom: 5px
+  font-family: 'Press Start 2P', cursive;
+  font-size: 18px; 
+  text-align: justify; 
+  margin-bottom: 10px;
+  color: #33CC33; 
+}
 
 /* CSS in style1.css */
 .threeD-button-set {
