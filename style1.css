@@ -24,6 +24,13 @@ h2 {
   -webkit-text-fill-color: transparent;
 }
 
+/* Le écrit à propos du jeu */
+p {
+  font-family: 'press Start 2p', cursive;
+  font-size: 10px;
+  texte-align: center;
+  margrin-bottom: 5px
+
 /* CSS in style1.css */
 .threeD-button-set {
   --y: 0;
