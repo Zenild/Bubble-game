@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     zone: document.getElementById('joystick-container'),
     mode: 'static',
     position: { left: '50%', bottom: '20%' },
-    color: 'red'
+    color: 'green'
   });
 
   joystick.on('move', function(evt, data) {
