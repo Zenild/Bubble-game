@@ -65,6 +65,42 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+function playMusic() {
+  // Créez un contexte audio
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Chargez la chanson
+  const song = new Audio('bubbleSong.mp3');
+
+  // Créez une source de buffer
+  const source = audioCtx.createBufferSource();
+
+  // Chargez la chanson dans la source de buffer
+  song.onloadedmetadata = () => {
+    // Créez un buffer et copiez les données audio dans celui-ci
+    const buffer = audioCtx.createBuffer(1, song.duration * song.sampleRate, song.sampleRate);
+    const data = new Float32Array(buffer.length);
+    for (let i = 0; i < buffer.length; i++) {
+      data[i] = song.buffer.getChannelData(0)[i];
+    }
+    buffer.getChannelData(0).set(data);
+
+    // Démarrez la lecture à un moment spécifique avec un décalage donné
+    source.buffer = buffer;
+    source.loop = true;
+    source.start(audioCtx.currentTime, 0);
+  };
+
+  // Ajoutez un écouteur d'événement pour lorsque la chanson se termine
+  source.addEventListener('ended', () => {
+    // Redémarrez la chanson depuis le début
+    source.start(audioCtx.currentTime, 0);
+  });
+
+  // Jouez la chanson
+  song.play();
+}
+
 // Fonction pour calculer la distance entre deux points
 function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -258,6 +294,7 @@ function init() {
   lastBombSpawn = 0; // Réinitialiser le timer des bombes
   lastStarSpawn = 0; // Réinitialiser le timer des étoiles
   music.play();
+  song.play();
 }
 
 // Fonction pour vérifier si toutes les ressources sont chargées
