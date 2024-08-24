@@ -240,17 +240,16 @@ function update() {
   timer -= 1 / 60;
 if (timer <= 0) {
   Swal.fire({
-    title: 'Temps écoulé !',
-    text: `Votre score final est de : ${score}`,
-    icon: 'info',
-    confirmButtonText: 'Rejouer'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      timer = 60; // Réinitialiser le timer à 60 secondes
-      console.log('Timer réinitialisé à 60 secondes'); // Vérifier que le timer est bien réinitialisé
-      init(); // Redémarrer le jeu
-    }
-  });
+  title: 'Temps écoulé !',
+  text: `Votre score final est de : ${score}`,
+  icon: 'info',
+  confirmButtonText: 'Rejouer'
+}).then((result) => {
+  if (result.isConfirmed) {
+    timer = 60; // Réinitialiser le timer à 60 secondes
+    init(); // Redémarrer le jeu
+  }
+});
 }
   }
 }
