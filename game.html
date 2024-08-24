@@ -14,6 +14,9 @@
     }
     body {
       background-image: url('fond.png');
+      image-height: 100%;
+      image-width: 100%;
+      image-margin: 0;
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
@@ -87,7 +90,7 @@
         const message = result.value;
         // Envoyer le message (pour le moment, juste une console.log)
         console.log("Message de feedback :", message);
-        Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
+        Swal.fire('Merci!', 'Votre commentaires a été envoyé avec succès.', 'success');
       }
     });
   } else {
