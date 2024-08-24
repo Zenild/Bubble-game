@@ -80,6 +80,16 @@ function drawPlayer() {
       player.radius * 3,
       player.radius * 3
     );
+    
+// Lancer la fonction countdown pour la première fois
+countdown();
+  } else {
+    ctx.beginPath();
+    ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+  }
+}
 
 // Fonction pour dessiner les ennemis
 function drawEnemies() {
