@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bubble game</title>
   <link rel="stylesheet" href="style.css">
-  <script src="js/sweetalert2.all.min.js"></script>
+<script src="js/sweetalert2.all.min.js"></script>
   <style>
     html, body {
       height: 100%;
+      width: 100%;
       margin: 0;
     }
     body {
@@ -35,46 +36,24 @@
     #feedback-button:hover {
       background-color: #45a049;
     }
-    /* Ajout de la fonctionnalité de responsive design */
-    @media only screen and (max-width: 768px) {
-      body {
-        font-size: 14px;
-      }
-      #feedback-button {
-        font-size: 14px;
-      }
-      #game-canvas {
-        width: 100%;
-        height: 200px;
-      }
-    }
-    @media only screen and (max-width: 480px) {
-      body {
-        font-size: 12px;
-      }
-      #feedback-button {
-        font-size: 12px;
-      }
-      #game-canvas {
-        width: 100%;
-        height: 150px;
-      }
-    }
   </style>
 </head>
 <body>
-  <button id="feedback-button">Feedback</button>
+  <button id="feedback-button"> Feedback </button>
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
   <p>Essayer de faire de votre mieux pour un meilleur score historique.</p>
   <div id="joystick-container"></div>
   <canvas id="game-canvas" width="400" height="300"></canvas>
-  <script src="js/nipplejs.min.js"></script>
+ <script src="js/nipplejs.min.js"></script>
+ 
+ 
   <script src="script.js"></script>
   <script>
     function sendMessageToBot(message) {
@@ -92,34 +71,34 @@
         });
     }
     document.getElementById('feedback-button').addEventListener('click', () => {
-      // Vérifier la connexion avant d'ouvrir la boîte de dialogue
-      if (navigator.onLine) {
-        Swal.fire({
-          title: 'Vos remarques',
-          input: 'textarea',
-          inputAttributes: {
-            'aria-label': 'Entrez vos remarques ici'
-          },
-          showCancelButton: true,
-          confirmButtonText: 'Envoyer',
-          cancelButtonText: 'Annuler',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const message = result.value;
-            // Envoyer le message (pour le moment, juste une console.log)
-            console.log("Message de feedback :", message);
-            Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
-          }
-        });
-      } else {
-        // Afficher un message si l'utilisateur est hors ligne
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Vous devez être connecté à Internet pour envoyer un feedback.'
-        });
+  // Vérifier la connexion avant d'ouvrir la boîte de dialogue
+  if (navigator.onLine) {
+    Swal.fire({
+      title: 'Vos remarques',
+      input: 'textarea',
+      inputAttributes: {
+        'aria-label': 'Entrez vos remarques ici'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Envoyer',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const message = result.value;
+        // Envoyer le message (pour le moment, juste une console.log)
+        console.log("Message de feedback :", message);
+        Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
       }
     });
+  } else {
+    // Afficher un message si l'utilisateur est hors ligne
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Vous devez être connecté à Internet pour envoyer un feedback.'
+    });
+  }
+});
   </script>
 </body>
 <footer>
