@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   joystick.on('move', function (evt, data) {
-    let speedMultiplier = 0.2;
+    let speedMultiplier = 0.1;
     player.speedX =
       Math.cos(data.angle.radian) * data.distance * speedMultiplier;
     player.speedY =
@@ -241,15 +241,16 @@ function update() {
   if (timer <= 0) {
     // Remplacer alert par Swal.fire
     Swal.fire({
-      title: 'Temps écoulé !',
-      text: `Votre score final est de : ${score}`,
-      icon: 'info',
-      confirmButtonText: 'Rejouer'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        init(); 
-      }
-    });
+  title: 'Temps écoulé !',
+  text: `Votre score final est de : ${score}`,
+  icon: 'info',
+  confirmButtonText: 'Rejouer'
+}).then((result) => {
+  if (result.isConfirmed) {
+    timer = 60; // Réinitialiser le timer à 60 secondes
+    init(); // Redémarrer le jeu
+  }
+});
   }
 }
 
