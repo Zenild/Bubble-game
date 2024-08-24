@@ -241,15 +241,16 @@ function update() {
   if (timer <= 0) {
     // Remplacer alert par Swal.fire
     Swal.fire({
-      title: 'Temps écoulé !',
-      text: `Votre score final est de : ${score}`,
-      icon: 'info',
-      confirmButtonText: 'Rejouer'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        init(); 
-      }
-    });
+  title: 'Temps écoulé !',
+  text: `Votre score final est de : ${score}`,
+  icon: 'info',
+  confirmButtonText: 'Rejouer'
+}).then((result) => {
+  if (result.isConfirmed) {
+    timer = 60; // Réinitialiser le timer à 60 secondes
+    init(); // Redémarrer le jeu
+  }
+});
   }
 }
 
