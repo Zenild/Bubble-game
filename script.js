@@ -80,6 +80,21 @@ function drawPlayer() {
       player.radius * 3,
       player.radius * 3
     );
+    function countdown() {
+  timer--; // Décrémenter le temps de 1 seconde
+  document.getElementById("timer").innerHTML = `Temps restant : ${time} seconde(s)`; // Mise à jour du texte du timer
+
+  if (timer <= 0) {
+    // Si le temps arrive à 0, afficher le message "Temps écoulé"
+    document.getElementById("message").innerHTML = "Temps écoulé";
+  } else {
+    // Sinon, relancer la fonction countdown après 1 seconde
+    setTimeout(countdown, 1000);
+  }
+}
+
+// Lancer la fonction countdown pour la première fois
+countdown();
   } else {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
