@@ -294,7 +294,6 @@ starImage.onload = checkResourcesLoaded;
 // Boucle de jeu
 function gameLoop() {
   if (resourcesLoaded) {
-    update();
     draw();
   }
   requestAnimationFrame(gameLoop);
