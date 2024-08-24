@@ -80,10 +80,7 @@ function drawPlayer() {
       player.radius * 3,
       player.radius * 3
     );
-    
-// Lancer la fonction countdown pour la première fois
-countdown();
-  } else {
+    } else {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
     ctx.fillStyle = 'red';
@@ -108,7 +105,7 @@ function drawEnemies() {
 // Fonction pour dessiner les bombes
 function drawBombs() {
   for (let i = 0; i < bombs.length; i++) {
-    if (bombImage.complete) {
+    if (bombImage.complte) {
       ctx.drawImage(bombImage, bombs[i].x, bombs[i].y, 30, 30);
     } else {
       ctx.beginPath();
