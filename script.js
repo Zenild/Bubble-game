@@ -80,7 +80,7 @@ function drawPlayer() {
       player.radius * 3,
       player.radius * 3
     );
-    } else {
+  } else {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
     ctx.fillStyle = 'red';
@@ -105,7 +105,7 @@ function drawEnemies() {
 // Fonction pour dessiner les bombes
 function drawBombs() {
   for (let i = 0; i < bombs.length; i++) {
-    if (bombImage.complte) {
+    if (bombImage.complete) {
       ctx.drawImage(bombImage, bombs[i].x, bombs[i].y, 30, 30);
     } else {
       ctx.beginPath();
@@ -241,16 +241,15 @@ function update() {
   if (timer <= 0) {
     // Remplacer alert par Swal.fire
     Swal.fire({
-  title: 'Temps écoulé !',
-  text: `Votre score final est de : ${score}`,
-  icon: 'info',
-  confirmButtonText: 'Rejouer'
-}).then((result) => {
-  if (result.isConfirmed) {
-    timer = 60; // Réinitialiser le timer à 60 secondes
-    init(); // Redémarrer le jeu
-  }
-});
+      title: 'Temps écoulé !',
+      text: `Votre score final est de : ${score}`,
+      icon: 'info',
+      confirmButtonText: 'Rejouer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        init(); 
+      }
+    });
   }
 }
 
@@ -299,4 +298,4 @@ function gameLoop() {
     draw();
   }
   requestAnimationFrame(gameLoop);
-}
+    }
