@@ -8,6 +8,15 @@ let stars = [];
 let score = 0;
 let timer = 60;
 
+// Ajout de la musique
+let music = new Audio('bubbleSong.mp3');
+const musicDuration = 180 * 1000; // 180 secondes en millisecondes
+music.addEventListener('ended', function() {
+  // Relancez la musique à l'infini
+  music.currentTime = 0;
+  music.play();
+});
+
 // Variables pour gérer l'apparition des bombes et étoiles
 let lastBombSpawn = 0;
 let bombSpawnInterval = 10000; // 10 secondes en millisecondes
@@ -257,6 +266,7 @@ function init() {
   player.speedY = 0;
   lastBombSpawn = 0; // Réinitialiser le timer des bombes
   lastStarSpawn = 0; // Réinitialiser le timer des étoiles
+  music.play();
 }
 
 // Fonction pour vérifier si toutes les ressources sont chargées
