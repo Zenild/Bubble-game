@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bubble game</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/sweetalert2.all.min.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -50,7 +50,9 @@
   <p>Essayer de faire de votre mieux pour un meilleur score historique.</p>
   <div id="joystick-container"></div>
   <canvas id="game-canvas" width="400" height="300"></canvas>
-  <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.1/dist/nipplejs.min.js"></script>
+ <script src="js/nipplejs.min.js"></script>
+ 
+ 
   <script src="script.js"></script>
   <script>
     function sendMessageToBot(message) {
@@ -68,23 +70,34 @@
         });
     }
     document.getElementById('feedback-button').addEventListener('click', () => {
-      Swal.fire({
-        title: 'Vos remarques',
-        input: 'textarea',
-        inputAttributes: {
-          'aria-label': 'Entrez vos remarques ici'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Envoyer',
-        cancelButtonText: 'Annuler',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const message = result.value;
-          sendMessageToBot(message);
-          Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
-        }
-      });
+  // Vérifier la connexion avant d'ouvrir la boîte de dialogue
+  if (navigator.onLine) {
+    Swal.fire({
+      title: 'Vos remarques',
+      input: 'textarea',
+      inputAttributes: {
+        'aria-label': 'Entrez vos remarques ici'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Envoyer',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const message = result.value;
+        // Envoyer le message (pour le moment, juste une console.log)
+        console.log("Message de feedback :", message);
+        Swal.fire('Merci!', 'Vos commentaires ont été envoyés.', 'success');
+      }
     });
+  } else {
+    // Afficher un message si l'utilisateur est hors ligne
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Vous devez être connecté à Internet pour envoyer un feedback.'
+    });
+  }
+});
   </script>
 </body>
 <footer>

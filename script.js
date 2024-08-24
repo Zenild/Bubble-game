@@ -239,8 +239,17 @@ function update() {
   // Décompte du timer et fin du jeu
   timer -= 1 / 60;
   if (timer <= 0) {
-    alert(`Temps écoulé ! Votre score final est de : ${score}`);
-    init();
+    // Remplacer alert par Swal.fire
+    Swal.fire({
+      title: 'Temps écoulé !',
+      text: `Votre score final est de : ${score}`,
+      icon: 'info',
+      confirmButtonText: 'Rejouer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        init(); 
+      }
+    });
   }
 }
 
