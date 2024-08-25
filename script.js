@@ -1,4 +1,3 @@
-// Variables du jeu
 let canvas = document.getElementById('game-canvas');
 let ctx = canvas.getContext('2d');
 let player = { x: 100, y: 100, speedX: 0, speedY: 0, radius: 20 };
@@ -8,22 +7,18 @@ let stars = [];
 let score = 0;
 let timer = 60;
 
-// Ajout de la musique
 let music = new Audio('bubbleSong.mp3');
-const musicDuration = 180 * 1000; // 180 secondes en millisecondes
+const musicDuration = 180 * 1000; 
 music.addEventListener('ended', function() {
-  // Relancez la musique à l'infini
   music.currentTime = 0;
   music.play();
 });
 
-// Variables pour gérer l'apparition des bombes et étoiles
 let lastBombSpawn = 0;
-let bombSpawnInterval = 10000; // 10 secondes en millisecondes
+let bombSpawnInterval = 10000;
 let lastStarSpawn = 0;
-let starSpawnInterval = 12000; // 12 secondes en millisecondes
+let starSpawnInterval = 12000; 
 
-// Chargement des images
 let playerImage = new Image();
 playerImage.src = 'player.png';
 
@@ -39,10 +34,8 @@ bombImage.src = 'bomb.png';
 let starImage = new Image();
 starImage.src = 'star.png';
 
-// Variable pour suivre le chargement des ressources
 let resourcesLoaded = false;
 
-// Créer le joystick après le chargement du contenu de la page
 document.addEventListener('DOMContentLoaded', function () {
   let joystick = nipplejs.create({
     zone: document.getElementById('joystick-container'),
@@ -53,10 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   joystick.on('move', function (evt, data) {
     let speedMultiplier = 0.1;
-    player.speedX =
-      Math.cos(data.angle.radian) * data.distance * speedMultiplier;
-    player.speedY =
-      -Math.sin(data.angle.radian) * data.distance * speedMultiplier;
+    player.speedX = Math.cos(data.angle.radian) * data.distance * speedMultiplier;
+    player.speedY = -Math.sin(data.angle.radian) * data.distance * speedMultiplier;
   });
 
   joystick.on('end', function (evt) {
@@ -65,21 +56,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// Fonction pour calculer la distance entre deux points
 function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-// Fonction pour dessiner le joueur
 function drawPlayer() {
   if (playerImage.complete) {
-    ctx.drawImage(
-      playerImage,
-      player.x - player.radius,
-      player.y - player.radius,
-      player.radius * 3,
-      player.radius * 3
-    );
+    ctx.drawImage(playerImage, player.x - player.radius, player.y - player.radius, player.radius * 3, player.radius * 3);
   } else {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.radius, 0, 2 * Math.PI);
@@ -88,7 +71,6 @@ function drawPlayer() {
   }
 }
 
-// Fonction pour dessiner les ennemis
 function drawEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     if (enemyImage.complete) {
@@ -102,7 +84,6 @@ function drawEnemies() {
   }
 }
 
-// Fonction pour dessiner les bombes
 function drawBombs() {
   for (let i = 0; i < bombs.length; i++) {
     if (bombImage.complete) {
@@ -116,7 +97,6 @@ function drawBombs() {
   }
 }
 
-// Fonction pour dessiner les étoiles
 function drawStars() {
   for (let i = 0; i < stars.length; i++) {
     if (starImage.complete) {
@@ -130,9 +110,7 @@ function drawStars() {
   }
 }
 
-// Fonction pour dessiner le jeu
 function draw() {
-  // Dessiner le fond
   if (backgroundImage.complete) {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
   }
@@ -150,12 +128,10 @@ function draw() {
   ctx.fillText(`Temps restant: ${Math.floor(timer)}`, 10, 30);
 }
 
-// Fonction pour mettre à jour le jeu
 function update() {
   player.x += player.speedX;
   player.y += player.speedY;
 
-  // Garder le joueur dans la zone de jeu
   if (player.x + player.radius > canvas.width) {
     player.x = canvas.width - player.radius;
   } else if (player.x - player.radius < 0) {
@@ -167,7 +143,6 @@ function update() {
     player.y = player.radius;
   }
 
-  // Mettre à jour les ennemis
   for (let i = 0; i < enemies.length; i++) {
     enemies[i].x += 2;
     if (enemies[i].x > canvas.width) {
@@ -175,7 +150,6 @@ function update() {
     }
   }
 
-  // Gestion des collisions avec les ennemis
   for (let i = 0; i < enemies.length; i++) {
     if (distance(player.x, player.y, enemies[i].x, enemies[i].y) < player.radius + 10) {
       score++;
@@ -183,12 +157,10 @@ function update() {
     }
   }
 
-  // Apparition aléatoire des ennemis
   if (Math.random() < 0.05) {
     enemies.push({ x: 0, y: Math.random() * canvas.height });
   }
 
-  // Apparition des bombes (3 bombes toutes les 10 secondes)
   let now = Date.now();
   if (now - lastBombSpawn > bombSpawnInterval) {
     let bombY = Math.random() * canvas.height;
@@ -198,15 +170,13 @@ function update() {
     lastBombSpawn = now;
   }
 
-  // Mettre à jour la position des bombes
   for (let i = 0; i < bombs.length; i++) {
-    bombs[i].x += 2; // Déplacement vers la droite
+    bombs[i].x += 2; 
     if (bombs[i].x > canvas.width) {
       bombs.splice(i, 1);
     }
   }
 
-  // Gestion des collisions avec les bombes
   for (let i = 0; i < bombs.length; i++) {
     if (distance(player.x, player.y, bombs[i].x, bombs[i].y) < player.radius + 15) {
       score -= 10;
@@ -214,21 +184,18 @@ function update() {
     }
   }
 
-  // Apparition des étoiles (1 étoile toutes les 12 secondes)
   if (now - lastStarSpawn > starSpawnInterval) {
     stars.push({ x: 0, y: Math.random() * canvas.height });
     lastStarSpawn = now;
   }
 
-  // Mettre à jour la position des étoiles
   for (let i = 0; i < stars.length; i++) {
-    stars[i].x += 2; // Déplacement vers la droite
+    stars[i].x += 2; 
     if (stars[i].x > canvas.width) {
       stars.splice(i, 1);
     }
   }
 
-  // Gestion des collisions avec les étoiles
   for (let i = 0; i < stars.length; i++) {
     if (distance(player.x, player.y, stars[i].x, stars[i].y) < player.radius + 15) {
       score += 5;
@@ -236,25 +203,60 @@ function update() {
     }
   }
 
-  // Décompte du timer et fin du jeu
   timer -= 1 / 60;
-if (timer <= 0) {
-  Swal.fire({
-  title: 'Temps écoulé !',
-  text: `Votre score final est de : ${score}`,
-  icon: 'info',
-  confirmButtonText: 'Rejouer'
-}).then((result) => {
-  if (result.isConfirmed) {
-    timer = 60; // Réinitialiser le timer à 60 secondes
-    init(); // Redémarrer le jeu
-  }
-});
-}
+  if (timer <= 0) {
+    music.pause();
+
+    Swal.fire({
+      title: 'Temps écoulé !',
+      text: `Votre score final est de : ${score}`,
+      icon: 'info',
+      input: 'text',
+      inputPlaceholder: 'Entrez votre nom',
+      confirmButtonText: 'Enregistrer',
+      showCancelButton: true,
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let playerName = result.value;
+        saveScore(playerName, score);
+      }
+      timer = 60;
+      init();
+    });
   }
 }
 
-// Fonction pour initialiser le jeu
+function saveScore(playerName, score) {
+  if (playerName.trim() === "") {
+    alert("Veuillez entrer un nom de joueur valide.");
+    return;
+  }
+  fetch('https://charmed-slug-43732.upstash.io/set/' + playerName, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ value: score }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Score enregistré avec succès:', data);
+      window.location.href = 'leaderboard.html';
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'enregistrement du score:', error);
+      alert("Une erreur est survenue lors de l'enregistrement du score. Veuillez réessayer.");
+    });
+}
+
+
 function init() {
   score = 0;
   timer = 60;
@@ -265,38 +267,29 @@ function init() {
   player.y = canvas.height / 2;
   player.speedX = 0;
   player.speedY = 0;
-  lastBombSpawn = 0; // Réinitialiser le timer des bombes
-  lastStarSpawn = 0; // Réinitialiser le timer des étoiles
-  music.play();
+  lastBombSpawn = 0;
+  lastStarSpawn = 0;
+  music.play(); 
 }
 
-// Fonction pour vérifier si toutes les ressources sont chargées
 function checkResourcesLoaded() {
-  if (
-    playerImage.complete &&
-    enemyImage.complete &&
-    backgroundImage.complete &&
-    bombImage.complete &&
-    starImage.complete
-  ) {
+  if (playerImage.complete && enemyImage.complete && backgroundImage.complete && bombImage.complete && starImage.complete) {
     resourcesLoaded = true;
     init();
     gameLoop();
   }
 }
 
-// Appels pour charger les images et vérifier le chargement
 playerImage.onload = checkResourcesLoaded;
 enemyImage.onload = checkResourcesLoaded;
 backgroundImage.onload = checkResourcesLoaded;
 bombImage.onload = checkResourcesLoaded;
 starImage.onload = checkResourcesLoaded;
 
-// Boucle de jeu
 function gameLoop() {
   if (resourcesLoaded) {
     update();
     draw();
   }
   requestAnimationFrame(gameLoop);
-    }
+}

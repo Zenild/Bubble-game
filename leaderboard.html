@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Bubble Game</title>
+    <link rel="stylesheet" href="style1.css">
+    <style>
+        body {
+            background-image: url('imgA.png');
+            background-size: 100% 100%;
+            font-family: 'Press Start 2P', cursive;
+        }
+        #leaderboard {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        #leaderboard li {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <ol id="leaderboard"></ol>
+    <script>
+        const keysUrl = 'https://charmed-slug-43732.upstash.io/keys/*';
+        const getUrl = (key) => `https://charmed-slug-43732.upstash.io/get/${key}`;
+
+        fetch(keysUrl, {
+            headers: {
+                'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const keys = data.result || [];
+            const fetchPromises = keys.map(key => 
+                fetch(getUrl(key), {
+                    headers: {
+                        'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA'
+                    }
+                })
+                .then(response => response.json())
+                .then(valueData => {
+                    let score = valueData.result;
+
+                    try {
+                        // Si la valeur est un objet JSON, extraire la clé "value" ou "score"
+                        const parsed = JSON.parse(score);
+                        score = parsed.value || parsed.score || parsed.valuey || score; 
+                    } catch (e) {
+                        // Si ce n'est pas un objet JSON, utiliser la valeur telle quelle
+                    }
+
+                    return [key, score];
+                })
+            );
+
+            return Promise.all(fetchPromises);
+        })
+        .then(scores => {
+            console.log(scores); // Affiche les scores pour débogage
+            const leaderboard = document.getElementById('leaderboard');
+
+            // Si les scores sont des nombres, vous pouvez les trier. Sinon, afficher tels quels.
+            const sortedScores = scores
+                .sort((a, b) => {
+                    const scoreA = parseFloat(a[1]) || 0; // Tentative de conversion en nombre
+                    const scoreB = parseFloat(b[1]) || 0;
+                    return scoreB - scoreA;
+                })
+                .slice(0, 5); // Limite à 5 scores
+
+            // Ajoute chaque score au leaderboard
+            sortedScores.forEach(([player, score]) => {
+                const li = document.createElement('li');
+                li.textContent = `${player}: ${score}`;
+                leaderboard.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération du leaderboard:', error);
+        });
+    </script>
+</body>
+</html>
