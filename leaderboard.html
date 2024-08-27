@@ -69,12 +69,12 @@
             const leaderboard = document.getElementById('leaderboard');
 
             // Si les scores sont des nombres, vous pouvez les trier. Sinon, afficher tels quels.
-            const sortedScores = scores
-                .sort((a, b) => {
-                    const scoreA = parseFloat(a[1]) || 0; // Tentative de conversion en nombre
-                    const scoreB = parseFloat(b[1]) || 0;
-                    return scoreB - scoreA;
-                })
+            const sortedScores = scoresconst sortedScores = scores
+    .sort((a, b) => {
+        const scoreA = parseFloat(a[1]) || 0;
+        const scoreB = parseFloat(b[1]) || 0;
+        return scoreA - scoreB; // Inverser l'ordre de tri
+    })
                 .slice(0, 5); // Limite à 5 scores
 
             // Ajoute chaque score au leaderboard
