@@ -67,8 +67,9 @@
   <script>
     // Animation d'entrée
     document.body.onload = function() {
-      document.querySelector('.container').style.transform = 'translateY(0)';
-    };
+  document.querySelector('.container').style.transition = 'all 2s ease-in-out';
+  document.querySelector('.container').style.transform = 'scale(1)';
+    }
   </script>
 </body>
 </html>
