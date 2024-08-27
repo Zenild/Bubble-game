@@ -22,11 +22,11 @@
    .container {
       text-align: center;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8); 
+      background-color: rgba(100, 0, 0, 0.8); /* Changé en rouge foncé */
       border-radius: 10px;
       transform: translateY(100vh);
       transition: transform 2.0s; 
-      }
+   }
 
     h1 {
       font-size: 3em;
@@ -67,7 +67,7 @@
   <script>
     // Animation d'entrée
     document.body.onload = function() {
-  document.querySelector('.container').style.transition = 'all 2s ease-in-out';
+  document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
   document.querySelector('.container').style.transform = 'scale(1)';
     }
   </script>
