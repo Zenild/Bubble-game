@@ -35,6 +35,9 @@ let starImage = new Image();
 starImage.src = 'star.png';
 
 let resourcesLoaded = false;
+let lastTime = 0;
+const fps = 60;
+const frameInterval = 1000 / fps;
 
 document.addEventListener('DOMContentLoaded', function () {
   let joystick = nipplejs.create({
@@ -128,9 +131,9 @@ function draw() {
   ctx.fillText(`Temps restant: ${Math.floor(timer)}`, 10, 30);
 }
 
-function update() {
-  player.x += player.speedX;
-  player.y += player.speedY;
+function update(deltaTime) {
+  player.x += player.speedX * (deltaTime / 16);
+  player.y += player.speedY * (deltaTime / 16);
 
   if (player.x + player.radius > canvas.width) {
     player.x = canvas.width - player.radius;
@@ -144,7 +147,7 @@ function update() {
   }
 
   for (let i = 0; i < enemies.length; i++) {
-    enemies[i].x += 2;
+    enemies[i].x += 2 * (deltaTime / 16);
     if (enemies[i].x > canvas.width) {
       enemies.splice(i, 1);
     }
@@ -157,7 +160,7 @@ function update() {
     }
   }
 
-  if (Math.random() < 0.05) {
+  if (Math.random() < 0.05 * (deltaTime / 16)) {
     enemies.push({ x: 0, y: Math.random() * canvas.height });
   }
 
@@ -171,7 +174,7 @@ function update() {
   }
 
   for (let i = 0; i < bombs.length; i++) {
-    bombs[i].x += 2; 
+    bombs[i].x += 2 * (deltaTime / 16);
     if (bombs[i].x > canvas.width) {
       bombs.splice(i, 1);
     }
@@ -190,7 +193,7 @@ function update() {
   }
 
   for (let i = 0; i < stars.length; i++) {
-    stars[i].x += 2; 
+    stars[i].x += 2 * (deltaTime / 16);
     if (stars[i].x > canvas.width) {
       stars.splice(i, 1);
     }
@@ -203,28 +206,32 @@ function update() {
     }
   }
 
-  timer -= 1 / 60;
+  timer -= deltaTime / 1000;
   if (timer <= 0) {
-    music.pause();
-
-    Swal.fire({
-      title: 'Temps écoulé !',
-      text: `Votre score final est de : ${score}`,
-      icon: 'info',
-      input: 'text',
-      inputPlaceholder: 'Entrez votre nom',
-      confirmButtonText: 'Enregistrer',
-      showCancelButton: true,
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let playerName = result.value;
-        saveScore(playerName, score);
-      }
-      timer = 60;
-      init();
-    });
+    endGame();
   }
+}
+
+function endGame() {
+  music.pause();
+
+  Swal.fire({
+    title: 'Temps écoulé !',
+    text: `Votre score final est de : ${score}`,
+    icon: 'info',
+    input: 'text',
+    inputPlaceholder: 'Entrez votre nom',
+    confirmButtonText: 'Enregistrer',
+    showCancelButton: true,
+    cancelButtonText: 'Annuler',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let playerName = result.value;
+      saveScore(playerName, score);
+    }
+    timer = 60;
+    init();
+  });
 }
 
 function saveScore(playerName, score) {
@@ -235,7 +242,7 @@ function saveScore(playerName, score) {
   fetch('https://charmed-slug-43732.upstash.io/set/' + playerName, {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA',
+      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVfY3AxMA',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ value: score }),
@@ -255,7 +262,6 @@ function saveScore(playerName, score) {
       alert("Une erreur est survenue lors de l'enregistrement du score. Veuillez réessayer.");
     });
 }
-
 
 function init() {
   score = 0;
@@ -286,10 +292,20 @@ backgroundImage.onload = checkResourcesLoaded;
 bombImage.onload = checkResourcesLoaded;
 starImage.onload = checkResourcesLoaded;
 
-function gameLoop() {
-  if (resourcesLoaded) {
-    update();
-    draw();
+function gameLoop(currentTime) {
+  if (!lastTime) lastTime = currentTime;
+  let deltaTime = currentTime - lastTime;
+
+  if (deltaTime >= frameInterval) {
+    if (resourcesLoaded) {
+      update(deltaTime);
+      draw();
+    }
+    lastTime = currentTime - (deltaTime % frameInterval);
   }
+  
   requestAnimationFrame(gameLoop);
 }
+
+// Initialisation du jeu
+checkResourcesLoaded();
