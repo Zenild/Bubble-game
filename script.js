@@ -215,9 +215,11 @@ function update(deltaTime) {
 function endGame() {
   music.pause();
 
+  let finalScore = score; // Stocke le score final dans une variable locale
+
   Swal.fire({
     title: 'Temps écoulé !',
-    text: `Votre score final est de : ${score}`,
+    text: `Votre score final est de : ${finalScore}`,
     icon: 'info',
     input: 'text',
     inputPlaceholder: 'Entrez votre nom',
@@ -227,25 +229,31 @@ function endGame() {
   }).then((result) => {
     if (result.isConfirmed) {
       let playerName = result.value;
-      saveScore(playerName, score);
+      saveScore(playerName, finalScore); // Utilise finalScore au lieu de score
     }
     timer = 60;
     init();
   });
 }
 
-function saveScore(playerName, score) {
+function saveScore(playerName, finalScore) {
   if (playerName.trim() === "") {
     alert("Veuillez entrer un nom de joueur valide.");
     return;
   }
-  fetch('https://charmed-slug-43732.upstash.io/set/' + playerName, {
-    method: 'POST',
+
+  // Encodez le nom du joueur et le score pour l'URL
+  const encodedPlayerName = encodeURIComponent(playerName);
+  const encodedScore = encodeURIComponent(finalScore); // Utilise finalScore
+
+  // Construisez l'URL pour une opération SET de Redis
+  const url = `https://charmed-slug-43732.upstash.io/set/${encodedPlayerName}/${encodedScore}`;
+
+  fetch(url, {
+    method: 'GET', // Redis KV sur Upstash utilise GET pour les opérations
     headers: {
-      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVfY3AxMA',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ value: score }),
+      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA',
+    }
   })
     .then((response) => {
       if (!response.ok) {
@@ -303,7 +311,7 @@ function gameLoop(currentTime) {
     }
     lastTime = currentTime - (deltaTime % frameInterval);
   }
-  
+
   requestAnimationFrame(gameLoop);
 }
 
