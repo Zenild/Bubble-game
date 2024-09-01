@@ -119,7 +119,7 @@ function drawStars() {
       ctx.drawImage(starImage, stars[i].x, stars[i].y, 30, 30);
     } else {
       ctx.beginPath();
-      ctx.rect(stars[i].x, stars[i].y, 20, 20);
+      ctx.rect(stars[i].x, stars[i].y, 25, 25);
       ctx.fillStyle = 'gold';
       ctx.fill();
     }
@@ -129,7 +129,7 @@ function drawStars() {
 function drawClockUps() {
   for (let i = 0; i < clockUps.length; i++) {
     if (clockUpImage.complete) {
-      ctx.drawImage(clockUpImage, clockUps[i].x, clockUps[i].y, 30, 30);
+      ctx.drawImage(clockUpImage, clockUps[i].x, clockUps[i].y, 25, 25);
     } else {
       ctx.beginPath();
       ctx.rect(clockUps[i].x, clockUps[i].y, 20, 20);
@@ -226,7 +226,7 @@ function update(deltaTime) {
 
   for (let i = 0; i < bombs.length; i++) {
     if (distance(player.x, player.y, bombs[i].x, bombs[i].y) < player.radius + 15) {
-      score -= 10;
+      score -= 7;
       bombs.splice(i, 1);
     }
   }
@@ -245,7 +245,7 @@ function update(deltaTime) {
 
   for (let i = 0; i < stars.length; i++) {
     if (distance(player.x, player.y, stars[i].x, stars[i].y) < player.radius + 15) {
-      score += 5;
+      score += 10;
       stars.splice(i, 1);
     }
   }
