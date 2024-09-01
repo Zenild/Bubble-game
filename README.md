@@ -30,7 +30,7 @@ Le jeu a été développé par ZENILDE LUTU et son associé YAZID MALIK, et est 
 Le jeu est publié sous licence [MIT](https://opensource.org/licenses/MIT).
 
 # Contributions
-Les contributions sont les bienvenues ! Si vous souhaitez contribuer au développement du jeu, veuillez créer un ticket sur [GitHub](https://github.com/).
+Les contributions sont les bienvenues ! Si vous souhaitez contribuer au développement du jeu, veuillez créer un ticket sur [GitHub](https://github.com/Zenild).
 
 # Remerciements
 Merci de jouer à Bubble Game ! Nous espérons que vous vous amuserez bien et que vous nous ferez part de vos commentaires et suggestions pour améliorer le jeu.
