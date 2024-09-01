@@ -1,4 +1,4 @@
-Bubble Game
+##Bubble Game##
 
 Un jeu de puzzle addictif où votre objectif est de détruire les carreaux noirs pour marquer des points !
 
