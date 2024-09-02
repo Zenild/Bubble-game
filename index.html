@@ -56,7 +56,6 @@
       background-color: #006bfdfd; 
     }
   </style>
-  <audio id="audio" src="bubbleSong2.mp3"></audio>
 </head>
 <body>
   <div class="container">
@@ -72,7 +71,8 @@
       document.querySelector('.container').style.transform = 'scale(1)';
       
       // Play music
-      document.getElementById("audio").play();
+      let music = new Audio('bubbleSong2.mp3');
+      music.play();;
     }
   </script>
 </body>
