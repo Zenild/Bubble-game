@@ -67,19 +67,23 @@
   <script>
     // Animation d'entrée
     document.body.onload = function() {
-      document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
-      document.querySelector('.container').style.transform = 'scale(1)';
-      
-      // Play music
-      let music = new Audio('bubbleSong2.mp3');
-const musicDuration = 180 * 1000; 
-music.addEventListener('ended', function() {
-  music.currentTime = 0;
+  document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
+  document.querySelector('.container').style.transform = 'scale(1)';
+  
+  // Play music
+  let music = new Audio('bubbleSong2.mp3');
+  const musicDuration = 180 * 1000; 
+  music.addEventListener('ended', function() {
+    music.currentTime = 0;
+    music.play();
+  });
+  
   music.play();
-});
-    
-      // Ajoutez cette ligne pour lancer la musique automatiquement
-music.play();
+  
+  // Ajoutez une erreur de gestion pour voir si cela nous donne des informations supplémentaires sur le problème
+  music.onerror = function() {
+    console.error('Erreur lors de la lecture de la musique :', music.error);
+  };
     }
   </script>
 </body>
