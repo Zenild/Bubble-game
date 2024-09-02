@@ -56,6 +56,7 @@
       background-color: #006bfdfd; 
     }
   </style>
+  <audio id="audio" src="bubbleSong2.mp3"></audio>
 </head>
 <body>
   <div class="container">
@@ -69,6 +70,10 @@
     document.body.onload = function() {
   document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
   document.querySelector('.container').style.transform = 'scale(1)';
+      //music d'entré
+function playMusic() {
+      var audio = document.getElementById("audio");
+      audio.play();
     }
   </script>
 </body>
