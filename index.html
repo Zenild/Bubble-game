@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booble Game</title>
+  <title>Bubble Game</title>
   <link rel="stylesheet" href="style1.css"> 
   <style>
     body {
@@ -59,7 +59,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Booble Game</h1>
+    <h1>Bubble Game</h1>
     <a href="game.html"><button>Jouer</button></a><br>
     <a href="leaderboard.html"><button>Leaderboard</button></a>
     <a href="a-propos.html"><button>À propos</button></a>
@@ -71,7 +71,9 @@
   document.querySelector('.container').style.transform = 'scale(1)';
   
   // Play music
-  let music = new Audio('bubbleSong1.mp3');
+let music = new Audio('bubbleSong1.mp3');
+
+      //...
   const musicDuration = 180 * 1000; 
   music.addEventListener('ended', function() {
     music.currentTime = 0;
