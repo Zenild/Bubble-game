@@ -29,9 +29,33 @@
   </main>
   <footer>
     <div class="copyright">
-      © copyright 2024 Bubble Game. Tout droit réservé.
+      &copy; copyright 2024 Bubble Game. Tout droit réservé.
       <a href="https://github.com/Zenild">suivez nous</a>
     </div>
   </footer>
+
+  <!-- l'élément audio -->
+  <audio id="about-music" loop preload="auto">
+    <source src="bubbleSong2.MP3" type="audio/mp3">
+    Votre navigateur ne prend pas en charge l'élément audio.
+  </audio>
+
+  <script>
+    // objet Audio
+    var audio = new Audio('bubbleSong2.MP3');
+
+    // la musique lorsque la page se charge
+    audio.play();
+
+    // Répéter la musique lorsque celle-ci se termine
+    audio.addEventListener('ended', function() {
+      audio.play();
+    });
+
+    // Arrêter la musique lorsque l'utilisateur quitte la page
+    window.onunload = function() {
+      audio.pause();
+    }
+  </script>
 </body>
 </html>
