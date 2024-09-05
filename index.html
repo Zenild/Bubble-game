@@ -76,24 +76,7 @@
     document.body.onload = function() {
       document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
       document.querySelector('.container').style.transform = 'scale(1)';
-
-      // Jouer la musique lorsque la page se charge
-      document.getElementById('menu-music').play();
-    }
   </script>
-
-  <!-- le code JavaScript pour jouer la musique -->
-  <script>
-    //  objet Audio
-    var audio = new Audio('menu-song.mp3');
-
-    // la musique lorsque la page se charge
-    audio.play();
-
-    // Répéter la musique lorsque celle-ci se termine
-    audio.addEventListener('ended', function() {
-      audio.play();
-    });
-  </script>
+  <script src="music.js"></script>
 </body>
 </html>
