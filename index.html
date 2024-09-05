@@ -64,30 +64,22 @@
     <a href="leaderboard.html"><button>Leaderboard</button></a>
     <a href="a-propos.html"><button>À propos</button></a>
   </div>
+
+  <!-- Add the audio element -->
+  <audio id="menu-music" loop>
+    <source src="bubbleSong2.MP3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
-  // Animation d'entrée
-  document.body.onload = function() {
-    document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
-    document.querySelector('.container').style.transform = 'scale(1)';
-    
-    // Play music
-    let music = new Audio();
-    music.src = 'bubbleSong2.MP3'; // Définissez la source de la musique
-    
-    //...
-    const musicDuration = 180 * 1000; 
-    music.addEventListener('ended', function() {
-      music.currentTime = 0;
-      music.play();
-    });
-    
-    music.play();
-    
-    // Ajoutez une erreur de gestion pour voir si cela nous donne des informations supplémentaires sur le problème
-    music.onerror = function() {
-      console.error('Erreur lors de la lecture de la musique :", music.error);
-    };
-  }
+    // Animation d'entrée
+    document.body.onload = function() {
+      document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
+      document.querySelector('.container').style.transform = 'scale(1)';
+
+      // Play the music when the page loads
+      document.getElementById('menu-music').play();
+    }
   </script>
 </body>
 </html>
