@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bubble game</title>
   <link rel="stylesheet" href="style.css">
-<script src="js/sweetalert2.all.min.js"></script>
+  <script src="js/sweetalert2.all.min.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -14,9 +14,6 @@
     }
     body {
       background-image: url('fond.png');
-      image-height: 100%;
-      image-width: 100%;
-      image-margin: 0;
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
@@ -39,23 +36,27 @@
     #feedback-button:hover {
       background-color: #45a049;
     }
+    #game-canvas {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
   </style>
 </head>
 <body>
-  <button id="feedback-button"> Feedback </button>
+  <button id="feedback-button" aria-label="Ouvrir le formulaire de feedback">Feedback</button>
   <br>
- <br>
- <br>
- <br>
- <br>
- <br>
- <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
  
-  <p>Essayer de faire de votre mieux pour un meilleur score historique.</p>
+  <p>Essayez de faire de votre mieux pour un meilleur score historique.</p>
   <div id="joystick-container"></div>
-  <canvas id="game-canvas" width="400" height="300"></canvas>
- <script src="js/nipplejs.min.js"></script>
- 
+  <canvas id="game-canvas" width="400" height="300" aria-label="Zone de jeu Bubble game"></canvas>
+  <script src="js/nipplejs.min.js"></script>
  
   <script src="script.js"></script>
   <script>
@@ -74,37 +75,34 @@
         });
     }
     document.getElementById('feedback-button').addEventListener('click', () => {
-  // Vérifier la connexion avant d'ouvrir la boîte de dialogue
-  if (navigator.onLine) {
-    Swal.fire({
-      title: 'Vos remarques',
-      input: 'textarea',
-      inputAttributes: {
-        'aria-label': 'Entrez vos remarques ici'
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Envoyer',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const message = result.value;
-        // Envoyer le message (pour le moment, juste une console.log)
-        console.log("Message de feedback :", message);
-        Swal.fire('Merci!', 'Votre commentaires a été envoyé avec succès.', 'success');
+      if (navigator.onLine) {
+        Swal.fire({
+          title: 'Vos remarques',
+          input: 'textarea',
+          inputAttributes: {
+            'aria-label': 'Entrez vos remarques ici'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Envoyer',
+          cancelButtonText: 'Annuler',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const message = result.value;
+            console.log("Message de feedback :", message);
+            Swal.fire('Merci!', 'Votre commentaire a été envoyé avec succès.', 'success');
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Vous devez être connecté à Internet pour envoyer un feedback.'
+        });
       }
     });
-  } else {
-    // Afficher un message si l'utilisateur est hors ligne
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Vous devez être connecté à Internet pour envoyer un feedback.'
-    });
-  }
-});
   </script>
 </body>
 <footer>
-  <div>Amusé vous bien !</div>
+  <div>Amusez-vous bien !</div>
 </footer>
 </html>
