@@ -1,4 +1,4 @@
-let music = new Audio('bubbleSong.mp3');
+let music = new Audio('bubbleSong2.mp3');
 const musicDuration = 180 * 1000; 
 music.addEventListener('ended', function() {
   music.currentTime = 0;
