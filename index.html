@@ -65,10 +65,10 @@
     <a href="a-propos.html"><button>À propos</button></a>
   </div>
 
-  <!-- Add the audio element -->
+  <!-- élément audio -->
   <audio id="menu-music" loop>
-    <source src="bubbleSong2.MP3" type="audio/mp3">
-    Your browser does not support the audio element.
+    <source src="menu-song.mp3" type="audio/mp3">
+    Votre navigateur ne prend pas en charge l'élément audio.
   </audio>
 
   <script>
@@ -77,9 +77,23 @@
       document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
       document.querySelector('.container').style.transform = 'scale(1)';
 
-      // Play the music when the page loads
+      // Jouer la musique lorsque la page se charge
       document.getElementById('menu-music').play();
     }
+  </script>
+
+  <!-- le code JavaScript pour jouer la musique -->
+  <script>
+    //  objet Audio
+    var audio = new Audio('menu-song.mp3');
+
+    // la musique lorsque la page se charge
+    audio.play();
+
+    // Répéter la musique lorsque celle-ci se termine
+    audio.addEventListener('ended', function() {
+      audio.play();
+    });
   </script>
 </body>
 </html>
