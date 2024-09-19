@@ -90,7 +90,7 @@ function drawPlayer() {
 function drawEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     if (enemyImage.complete) {
-      ctx.drawImage(enemyImage, enemies[i].x, enemies[i].y, 40, 40);
+      ctx.drawImage(enemyImage, enemies[i].x, enemies[i].y, 22, 22);
     } else {
       ctx.beginPath();
       ctx.rect(enemies[i].x, enemies[i].y, 20, 20);
