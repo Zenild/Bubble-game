@@ -30,7 +30,7 @@ let playerImage = new Image();
 playerImage.src = 'player.png';
 
 let enemyImage = new Image();
-enemyImage.src = 'enemy1.png';
+enemyImage.src = 'enemy.png';
 
 let backgroundImage = new Image();
 backgroundImage.src = 'background.png';
