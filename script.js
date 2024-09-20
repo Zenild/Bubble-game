@@ -17,7 +17,7 @@ music.addEventListener('ended', function() {
   music.play();
 });
 
-let lastBombSpawn = 0;
+let lastBombSpawn = 10000;
 let bombSpawnInterval = 10000;
 let lastStarSpawn = 0;
 let starSpawnInterval = 12000; 
