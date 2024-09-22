@@ -75,7 +75,7 @@
                     const scoreB = parseFloat(b[1]) || 0;
                     return scoreB - scoreA;
                 })
-                .slice(0, 5); // Limite à 5 scores
+                .slice(0, 10); // Limite à 10 scores
 
             // Ajoute chaque score au leaderboard
             sortedScores.forEach(([player, score]) => {
