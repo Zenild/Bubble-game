@@ -17,7 +17,7 @@ music.addEventListener('ended', function() {
   music.play();
 });
 
-let lastBombSpawn = 10000;
+let lastBombSpawn = 0;
 let bombSpawnInterval = 10000;
 let lastStarSpawn = 0;
 let starSpawnInterval = 12000; 
@@ -27,43 +27,30 @@ let lastMiniBombSpawn = 0;
 let miniBombSpawnInterval = 8000;
 
 let playerImage = new Image();
-playerImage.src = 'player.png';
+playerImage.src = '.img/player.png';
 
 let enemyImage = new Image();
-enemyImage.src = 'enemy.png';
+enemyImage.src = '.img/enemy.png';
 
 let backgroundImage = new Image();
-backgroundImage.src = 'background.png';
+backgroundImage.src = '.img/background.png';
 
 let bombImage = new Image();
-bombImage.src = 'bomb.png';
+bombImage.src = '.img/bomb.png';
 
 let starImage = new Image();
-starImage.src = 'star.png';
+starImage.src = '.img/star.png';
 
 let clockUpImage = new Image();
-clockUpImage.src = 'horloge_up.png';
+clockUpImage.src = '.img/horloge_up.png';
 
 let miniBombImage = new Image();
-miniBombImage.src = 'minibombe.png';
+miniBombImage.src = '.img/minibombe.png';
 
 let resourcesLoaded = false;
 let lastTime = 0;
 const fps = 60;
 const frameInterval = 1000 / fps;
-
-// Sons
-let enemySound = new Audio('enemy_sound.mp3');
-let bombSound = new Audio('bomb_sound.mp3');
-let miniBombSound = new Audio('mini_bomb_sound.mp3');
-let clockUpSound = new Audio('clock_up_sound.mp3');
-let starSound = new Audio('star_sound.mp3');
-
-enemySound.preload();
-bombSound.preload();
-miniBombSound.preload();
-clockUpSound.preload();
-starSound.preload();
 
 document.addEventListener('DOMContentLoaded', function () {
   let joystick = nipplejs.create({
@@ -214,7 +201,6 @@ function update(deltaTime) {
     if (distance(player.x, player.y, enemies[i].x, enemies[i].y) < player.radius + 10) {
       score++;
       enemies.splice(i, 1);
-      enemySound.play(); // Joue le son de l'ennemi
     }
   }
 
@@ -242,13 +228,12 @@ function update(deltaTime) {
     if (distance(player.x, player.y, bombs[i].x, bombs[i].y) < player.radius + 15) {
       score -= 7;
       bombs.splice(i, 1);
-            bombSound.play(); // Joue le son de la bombe
     }
   }
 
-  if (Math.random() < 0.01 * (deltaTime / 16) * gameSpeed) {
-    let starY = Math.random() * canvas.height;
-    stars.push({ x: 0, y: starY });
+  if (now - lastStarSpawn > starSpawnInterval / gameSpeed) {
+    stars.push({ x: 0, y: Math.random() * canvas.height });
+    lastStarSpawn = now;
   }
 
   for (let i = 0; i < stars.length; i++) {
@@ -260,15 +245,14 @@ function update(deltaTime) {
 
   for (let i = 0; i < stars.length; i++) {
     if (distance(player.x, player.y, stars[i].x, stars[i].y) < player.radius + 15) {
-      score += 5;
+      score += 10;
       stars.splice(i, 1);
-      starSound.play(); // Joue le son de l'étoile
     }
   }
 
-  if (Math.random() < 0.005 * (deltaTime / 16) * gameSpeed) {
-    let clockUpY = Math.random() * canvas.height;
-    clockUps.push({ x: 0, y: clockUpY });
+  if (now - lastClockUpSpawn > clockUpSpawnInterval / gameSpeed) {
+    clockUps.push({ x: 0, y: Math.random() * canvas.height });
+    lastClockUpSpawn = now;
   }
 
   for (let i = 0; i < clockUps.length; i++) {
@@ -282,17 +266,16 @@ function update(deltaTime) {
     if (distance(player.x, player.y, clockUps[i].x, clockUps[i].y) < player.radius + 15) {
       timer += 10;
       clockUps.splice(i, 1);
-      clockUpSound.play(); // Joue le son de l'horloge up
     }
   }
 
-  if (Math.random() < 0.02 * (deltaTime / 16) * gameSpeed) {
-    let miniBombY = Math.random() * canvas.height;
-    miniBombs.push({ x: 0, y: miniBombY });
+  if (now - lastMiniBombSpawn > miniBombSpawnInterval / gameSpeed) {
+    miniBombs.push({ x: 0, y: Math.random() * canvas.height });
+    lastMiniBombSpawn = now;
   }
 
   for (let i = 0; i < miniBombs.length; i++) {
-    miniBombs[i].x += 2 * (deltaTime / 16) * gameSpeed;
+    miniBombs[i].x += 3 * (deltaTime / 16) * gameSpeed; // Les mini-bombes sont plus rapides
     if (miniBombs[i].x > canvas.width) {
       miniBombs.splice(i, 1);
     }
@@ -300,27 +283,125 @@ function update(deltaTime) {
 
   for (let i = 0; i < miniBombs.length; i++) {
     if (distance(player.x, player.y, miniBombs[i].x, miniBombs[i].y) < player.radius + 10) {
-      score -= 3;
+      score -= 2;
       miniBombs.splice(i, 1);
-      miniBombSound.play(); // Joue le son de la mini-bombe
     }
   }
 
   timer -= deltaTime / 1000;
-  if (timer < 0) {
-    timer = 0;
+  if (timer <= 0) {
+    endGame();
   }
 }
 
-function main() {
-  let now = Date.now();
-  let deltaTime = now - lastTime;
-  lastTime = now;
+function endGame() {
+  music.pause();
 
-  update(deltaTime);
-  draw();
+  let finalScore = score; // Stocke le score final dans une variable locale
 
-  requestAnimationFrame(main);
+  Swal.fire({
+    title: 'Temps écoulé !',
+    text: `Votre score final est de : ${finalScore}`,
+    icon: 'info',
+    input: 'text',
+    inputPlaceholder: 'Entrez votre nom',
+    confirmButtonText: 'Enregistrer',
+    showCancelButton: true,
+    cancelButtonText: 'Annuler',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let playerName = result.value;
+      saveScore(playerName, finalScore);
+    }
+    timer = 60;
+    init();
+  });
 }
 
-main();
+function saveScore(playerName, finalScore) {
+  if (playerName.trim() === "") {
+    alert("Veuillez entrer un nom de joueur valide.");
+    return;
+  }
+
+  const encodedPlayerName = encodeURIComponent(playerName);
+  const encodedScore = encodeURIComponent(finalScore);
+
+  const url = `https://charmed-slug-43732.upstash.io/set/${encodedPlayerName}/${encodedScore}`;
+
+  fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer AarUAAIjcDE3ZGZmOWFlYWMzM2Q0ZTYyYTY0NzExZGM0YjI4ZmVmY3AxMA',
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Score enregistré avec succès:', data);
+      window.location.href = 'leaderboard.html';
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'enregistrement du score:', error);
+      alert("Une erreur est survenue lors de l'enregistrement du score. Veuillez réessayer.");
+    });
+}
+
+function init() {
+  score = 0;
+  timer = 60;
+  gameSpeed = 1;
+  enemies = [];
+  bombs = [];
+  stars = [];
+  clockUps = [];
+  miniBombs = [];
+  player.x = canvas.width / 2;
+  player.y = canvas.height / 2;
+  player.speedX = 0;
+  player.speedY = 0;
+  lastBombSpawn = 0;
+  lastStarSpawn = 0;
+  lastClockUpSpawn = 0;
+  lastMiniBombSpawn = 0;
+  music.play(); 
+}
+
+function checkResourcesLoaded() {
+  if (playerImage.complete && enemyImage.complete && backgroundImage.complete && 
+      bombImage.complete && starImage.complete && clockUpImage.complete && miniBombImage.complete) {
+    resourcesLoaded = true;
+    init();
+    gameLoop();
+  }
+}
+
+playerImage.onload = checkResourcesLoaded;
+enemyImage.onload = checkResourcesLoaded;
+backgroundImage.onload = checkResourcesLoaded;
+bombImage.onload = checkResourcesLoaded;
+starImage.onload = checkResourcesLoaded;
+clockUpImage.onload = checkResourcesLoaded;
+miniBombImage.onload = checkResourcesLoaded;
+
+function gameLoop(currentTime) {
+  if (!lastTime) lastTime = currentTime;
+  let deltaTime = currentTime - lastTime;
+
+  if (deltaTime >= frameInterval) {
+    if (resourcesLoaded) {
+      update(deltaTime);
+      draw();
+    }
+    lastTime = currentTime - (deltaTime % frameInterval);
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+// Initialisation du jeu
+checkResourcesLoaded();
