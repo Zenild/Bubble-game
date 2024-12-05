@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bubble Game</title>
-  <link rel="stylesheet" href="style1.css"> 
   <style>
     body {
       background-image: url('imgA.png');
@@ -55,11 +54,29 @@
     button:hover {
       background-color: #006bfdfd; 
     }
+
+    #installButton {
+      background-color: red;
+      color: white;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: none; /* Caché par défaut */
+    }
+
+    #installButton:hover {
+      background-color: darkred;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Bubble Game</h1>
+    <!-- Bouton Télécharger pour la PWA -->
+    <button id="installButton">Télécharger</button>
     <a href="game.html"><button>Jouer</button></a><br>
     <a href="leaderboard.html"><button>Leaderboard</button></a>
     <a href="a-propos.html"><button>À propos</button></a>
@@ -71,12 +88,35 @@
     Votre navigateur ne prend pas en charge l'élément audio.
   </audio>
 
-  <script>
-    // Animation d'entrée
-    document.body.onload = function() {
-      document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
-      document.querySelector('.container').style.transform = 'scale(1)';
-  </script>
-  <script src="music.js"></script>
+<script>
+  document.body.onload = function() {
+    document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
+    document.querySelector('.container').style.transform = 'scale(1)';
+  };
+
+  const menuMusic = document.getElementById('menu-music');
+  menuMusic.play();
+
+  let deferredPrompt;
+  const installButton = document.getElementById('installButton');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installButton.style.display = 'block';
+    installButton.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        deferredPrompt = null;
+      });
+    });
+  });
+
+  window.addEventListener('appinstalled', () => {
+    installButton.style.display = 'none';
+  });
+</script>
+
+  
 </body>
 </html>
