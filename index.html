@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bubble Game</title>
-  <link rel="stylesheet" href="style1.css"> 
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Game</title>
+    <link rel="manifest" href="/manifest.json"> 
+    <link rel="stylesheet" href="style.css">
+      <style>
     body {
       background-image: url('imgA.png');
       background-size: 100% 100%;
@@ -55,28 +56,85 @@
     button:hover {
       background-color: #006bfdfd; 
     }
+
+    #installButton {
+      background-color: red;
+      color: white;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: none; /* Caché par défaut */
+    }
+
+    #installButton:hover {
+      background-color: darkred;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bubble Game</h1>
-    <a href="game.html"><button>Jouer</button></a><br>
-    <a href="leaderboard.html"><button>Leaderboard</button></a>
-    <a href="a-propos.html"><button>À propos</button></a>
-  </div>
+    <div class="container">
+        <h1>Bubble Game</h1>
+        <button id="installButton">Télécharger</button>
+        <a href="game.html"><button>Jouer</button></a><br>
+        <a href="leaderboard.html"><button>Leaderboard</button></a>
+        <a href="a-propos.html"><button>À propos</button></a>
+    </div>
 
-  <!-- élément audio -->
-  <audio id="menu-music" loop>
-    <source src="menu-song.mp3" type="audio/mp3">
-    Votre navigateur ne prend pas en charge l'élément audio.
-  </audio>
+    <audio id="menu-music" loop>
+        <source src="menu-song.mp3" type="audio/mp3">
+    </audio>
 
-  <script>
-    // Animation d'entrée
-    document.body.onload = function() {
-      document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
-      document.querySelector('.container').style.transform = 'scale(1)';
-  </script>
-  <script src="music.js"></script>
+    <script>
+        // Code d'animation d'entrée
+        document.body.onload = function () {
+            document.querySelector('.container').style.transition = 'all 2.0s ease-in-out';
+            document.querySelector('.container').style.transform = 'scale(1)';
+        };
+
+        const menuMusic = document.getElementById('menu-music');
+        menuMusic.play();
+
+        
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                    installButton.style.display = 'none'; 
+                });
+            });
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA installée !');
+            installButton.style.display = 'none';
+            deferredPrompt = null; 
+        });
+
+        
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker enregistré avec succès :', registration);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'enregistrement du Service Worker :', error);
+                    });
+            });
+        }
+
+    </script>
 </body>
 </html>
+
+
