@@ -1,6 +1,7 @@
 {
   "name": "Bubble Game",
   "short_name": "Bubble",
+  "description": "Un jeu de puzzle addictif où vous évitez les bombes et collectez des étoiles!", // Ajoutez une description
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000000",
@@ -9,12 +10,17 @@
     {
       "src": "player.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable" // Utilisez "any maskable" pour une meilleure compatibilité
     },
     {
       "src": "player.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [], // Tableau vide si vous n'utilisez pas de raccourcis
+  "related_applications": [], // Tableau vide pour le moment.
+    "prefer_related_applications": false
 }
