@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Game</title>
-    <link rel="manifest" href="/manifest.json"> <!-- Lien vers le manifest -->
+    <link rel="manifest" href="/manifest.json"> 
     <link rel="stylesheet" href="style.css">
       <style>
     body {
@@ -97,7 +97,7 @@
         const menuMusic = document.getElementById('menu-music');
         menuMusic.play();
 
-        // Gestion de l'installation PWA
+        
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
 
@@ -109,7 +109,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     deferredPrompt = null;
-                    installButton.style.display = 'none'; // Cacher le bouton après le choix
+                    installButton.style.display = 'none'; 
                 });
             });
         });
@@ -117,10 +117,10 @@
         window.addEventListener('appinstalled', () => {
             console.log('PWA installée !');
             installButton.style.display = 'none';
-            deferredPrompt = null; // Nettoyer l'invite après l'installation
+            deferredPrompt = null; 
         });
 
-        // Enregistrement du Service Worker
+        
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
